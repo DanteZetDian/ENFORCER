@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Enforcer - Табель о рангах</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .ranks-container {
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+        
+        .ranks-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .ranks-header h1 {
+            font-size: 3rem;
+            color: var(--white);
+            text-shadow: 0 0 15px var(--blue-violet);
+        }
+        
+        .ranks-header .subtitle {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        
+        .branch-section {
+            margin: 50px 0;
+            background: rgba(10, 26, 47, 0.6);
+            border: 2px solid var(--royal-blue);
+            border-radius: 25px;
+            padding: 30px;
+        }
+        
+        .branch-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            padding-bottom: 20px;
+        }
+        
+        .branch-header.military { border-bottom-color: #b22222; }
+        .branch-header.craft { border-bottom-color: #b8860b; }
+        .branch-header.gather { border-bottom-color: #228b22; }
+        
+        .branch-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--indigo);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 3px solid var(--blue-violet);
+        }
+        
+        .branch-title h2 {
+            font-size: 2rem;
+            color: var(--white);
+        }
+        
+        .branch-title p {
+            color: var(--light-steel);
+        }
+        
+        .ranks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .rank-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--royal-blue);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rank-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        .rank-card.military { border-left: 5px solid #b22222; }
+        .rank-card.craft { border-left: 5px solid #b8860b; }
+        .rank-card.gather { border-left: 5px solid #228b22; }
+        
+        .rank-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: 'Cinzel', serif;
+        }
+        
+        .rank-name {
+            font-size: 1.3rem;
+            color: var(--white);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .rank-desc {
+            color: var(--light-steel);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .specializations {
+            margin: 40px 0;
+            background: rgba(75, 0, 130, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .spec-item {
+            background: rgba(10, 15, 30, 0.7);
+            border: 1px solid var(--royal-blue);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .spec-item i {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+        
+        .spec-item h4 {
+            color: var(--white);
+            margin-bottom: 5px;
+        }
+        
+        .honor-ranks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .honor-card {
+            background: linear-gradient(135deg, var(--indigo), var(--deep-navy));
+            border: 2px solid var(--gold);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .honor-card i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+        
+        .honor-card h3 {
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+        
+        .note {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(139, 0, 0, 0.1);
+            border-left: 4px solid #8b0000;
+            border-radius: 8px;
+        }
+        
+        .deus-vult {
+            text-align: center;
+            margin: 50px 0 20px;
+            font-size: 2rem;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://i.ibb.co/XfspBnpR/186ebc4c-0f81-4f95-b87c-e9e21d67350a.png" alt="Enforcer">
+                <span>ENFORCER</span>
+            </div>
+            <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">О гильдии</a></li>
+                <li><a href="codex.html">Кодекс</a></li>
+                <li><a href="ranks.html" class="active">Ранги</a></li>
+                <li><a href="activities.html">Активности</a></li>
+                <li><a href="roster.html">Состав</a></li>
+                <li><a href="calculator.html">Калькулятор</a></li>
+                <li><a href="market.html">Мониторинг</a></li>
+            </ul>
+            <a href="https://discord.gg/y6TAdWNkGq" class="nav-discord" target="_blank">
+                <i class="fab fa-discord"></i> <span>Discord</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>ТАБЕЛЬ О РАНГАХ</h1>
+        <p>"В крепости Стерлинга наш дом, в войне — наша слава!"</p>
+    </section>
+
+    <main>
+        <div class="container">
+            <div class="ranks-container" id="ranksContainer">
+                <!-- Сюда загружаются данные через ranks.js -->
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                    <p>Загрузка табели о рангах...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Enforcer</h4>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О гильдии</a></li>
+                        <li><a href="codex.html">Кодекс</a></li>
+                        <li><a href="ranks.html">Табель о рангах</a></li>
+                        <li><a href="activities.html">Активности</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Инструменты</h4>
+                    <ul>
+                        <li><a href="roster.html">Состав</a></li>
+                        <li><a href="calculator.html">Калькулятор крафта</a></li>
+                        <li><a href="market.html">Мониторинг рынка</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ресурсы</h4>
+                    <ul>
+                        <li><a href="https://discord.gg/y6TAdWNkGq" target="_blank">Discord</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Гильдия Enforcer • Основана 8 июля 2025 года</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/mobile.js"></script>
+    <script src="js/ranks.js"></script>
+</body>
+</html>

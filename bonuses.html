@@ -1,0 +1,718 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Enforcer - Бонусы городов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .gold-dashboard {
+            background: linear-gradient(135deg, var(--deep-navy), var(--indigo));
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid var(--gold);
+        }
+        
+        .gold-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .gold-icon {
+            font-size: 2.5rem;
+            color: var(--gold);
+        }
+        
+        .gold-price-large {
+            font-size: 2.2rem;
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+        }
+        
+        .gold-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .gold-stat-card {
+            background: rgba(10, 15, 30, 0.7);
+            border-radius: 12px;
+            padding: 8px;
+            border: 1px solid var(--gold);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .city-nav {
+            display: flex;
+            gap: 8px;
+            margin: 20px 0;
+            padding: 5px 0 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            white-space: nowrap;
+        }
+        
+        .city-nav::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .city-nav::-webkit-scrollbar-thumb {
+            background: var(--blue-violet);
+            border-radius: 10px;
+        }
+        
+        .city-nav-item {
+            padding: 10px 15px;
+            background: rgba(10, 26, 47, 0.7);
+            border: 2px solid var(--royal-blue);
+            border-radius: 30px;
+            color: var(--light-steel);
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 0 0 auto;
+            min-width: 110px;
+            text-align: center;
+        }
+        
+        .city-nav-item:hover,
+        .city-nav-item.active {
+            background: linear-gradient(135deg, var(--royal-blue), var(--blue-violet));
+            color: white;
+        }
+        
+        .city-panel {
+            background: rgba(10, 26, 47, 0.8);
+            border: 3px solid var(--royal-blue);
+            border-radius: 25px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .city-panel-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .city-emoji {
+            font-size: 3rem;
+            background: var(--indigo);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--blue-violet);
+        }
+        
+        .city-title h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 3px;
+        }
+        
+        .city-biome {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--indigo);
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+        
+        .bonus-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .bonus-block {
+            background: rgba(10, 15, 30, 0.6);
+            border-radius: 15px;
+            padding: 15px;
+            border-left: 4px solid var(--blue-violet);
+        }
+        
+        .bonus-block h3 {
+            color: var(--royal-blue);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .bonus-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .bonus-tag {
+            background: linear-gradient(135deg, var(--indigo), var(--deep-navy));
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            border: 1px solid var(--royal-blue);
+        }
+        
+        .resources-block {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(75, 0, 130, 0.3);
+            border-radius: 15px;
+            border: 2px dashed var(--royal-blue);
+        }
+        
+        .resources-title {
+            font-family: 'Cinzel', serif;
+            color: var(--white);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(10, 15, 30, 0.5);
+            border-radius: 8px;
+        }
+        
+        .resource-icon {
+            font-size: 1.2rem;
+        }
+        
+        .resource-name {
+            font-weight: bold;
+            color: var(--white);
+            font-size: 0.9rem;
+        }
+        
+        .priority-high {
+            color: var(--gold);
+        }
+        
+        .snow-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .snow-effect::before {
+            content: '❄️';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 4rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+            animation: snowfall 15s linear infinite;
+        }
+        
+        @keyframes snowfall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(20px) rotate(360deg); }
+        }
+        
+        .freshness-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(10, 15, 30, 0.7);
+            border-radius: 30px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+        
+        .freshness-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .dot-fresh {
+            background: #4caf50;
+            box-shadow: 0 0 10px #4caf50;
+        }
+        
+        .dot-stale {
+            background: #ff8c00;
+            box-shadow: 0 0 10px #ff8c00;
+        }
+        
+        .dot-old {
+            background: #f44336;
+            box-shadow: 0 0 10px #f44336;
+        }
+        
+        .beginners-compass {
+            background: radial-gradient(circle at 20% 30%, var(--deep-navy), var(--indigo));
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin: 30px 0;
+            border: 3px dashed var(--blue-violet);
+        }
+        
+        .compass-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .compass-title i {
+            font-size: 2.5rem;
+            color: var(--gold);
+        }
+        
+        .compass-title h2 {
+            font-size: 1.5rem;
+        }
+        
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .path-card {
+            background: rgba(10, 15, 30, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid var(--royal-blue);
+        }
+        
+        .path-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .path-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .path-card p {
+            font-size: 0.85rem;
+        }
+        
+        :root {
+            --gold: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://i.ibb.co/XfspBnpR/186ebc4c-0f81-4f95-b87c-e9e21d67350a.png" alt="Enforcer">
+                <span>ENFORCER</span>
+            </div>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">О гильдии</a></li>
+                <li><a href="craft.html">Крафт</a></li>
+                <li><a href="roster.html">Состав</a></li>
+                <li><a href="media.html">Медиа</a></li>
+                <li><a href="bonuses.html" class="active">Бонусы</a></li>
+                <li><a href="market.html">Мониторинг</a></li>
+            </ul>
+            <a href="#" class="nav-discord" onclick="alert('Discord: discord.gg/enforcer')">
+                <i class="fab fa-discord"></i> Вступить
+            </a>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>Бонусы городов</h1>
+        <p>Актуально • Европейский сервер</p>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="gold-dashboard" id="goldDashboard">
+                <div class="gold-header">
+                    <div class="gold-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div>
+                        <div class="gold-price-large" id="goldPrice">—</div>
+                        <div id="goldTime"><i class="fas fa-clock"></i> Загрузка...</div>
+                    </div>
+                </div>
+                <div class="gold-stats" id="goldStats">
+                    <div class="gold-stat-card">
+                        <div>Мин/Макс</div>
+                        <div id="goldMinMax">—</div>
+                    </div>
+                    <div class="gold-stat-card">
+                        <div>Средний</div>
+                        <div id="goldAvg">—</div>
+                    </div>
+                    <div class="gold-stat-card">
+                        <div>Изменение</div>
+                        <div id="goldChange">—</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="city-nav" id="cityNav">
+                <div class="city-nav-item active" data-city="fort-sterling">❄️ Fort Sterling</div>
+                <div class="city-nav-item" data-city="lymhurst">🌲 Lymhurst</div>
+                <div class="city-nav-item" data-city="bridgewatch">🏜️ Bridgewatch</div>
+                <div class="city-nav-item" data-city="martlock">⛰️ Martlock</div>
+                <div class="city-nav-item" data-city="thetford">🌿 Thetford</div>
+                <div class="city-nav-item" data-city="caerleon">⚔️ Caerleon</div>
+                <div class="city-nav-item" data-city="brecilien">🍄 Brecilien</div>
+            </div>
+
+            <div class="city-panel" id="cityPanel"></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="beginners-compass">
+                <div class="compass-title">
+                    <i class="fas fa-compass"></i>
+                    <h2>Куда пойти новичку?</h2>
+                </div>
+                <div class="path-grid">
+                    <div class="path-card">
+                        <div class="path-icon">⚔️</div>
+                        <h3>Путь Воина</h3>
+                        <p>Caerleon (PvP центр), Thetford (битвы)</p>
+                    </div>
+                    <div class="path-card">
+                        <div class="path-icon">⚒️</div>
+                        <h3>Путь Крафтера</h3>
+                        <p>Fort Sterling (броня), Lymhurst (луки)</p>
+                    </div>
+                    <div class="path-card">
+                        <div class="path-icon">⛏️</div>
+                        <h3>Путь Сборщика</h3>
+                        <p>Иди в биом своего ресурса!</p>
+                    </div>
+                    <div class="path-card">
+                        <div class="path-icon">💰</div>
+                        <h3>Путь Торговца</h3>
+                        <p>Покупай дешевле, продавай дороже</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Enforcer</h4>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О гильдии</a></li>
+                        <li><a href="craft.html">Крафт</a></li>
+                        <li><a href="roster.html">Состав</a></li>
+                        <li><a href="media.html">Медиа</a></li>
+                        <li><a href="bonuses.html">Бонусы</a></li>
+                        <li><a href="market.html">Мониторинг</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ресурсы</h4>
+                    <ul>
+                        <li><a href="#" onclick="alert('Discord: discord.gg/enforcer')">Дискорд</a></li>
+                        <li><a href="https://forum.albiononline.com/">Форум Albion</a></li>
+                        <li><a href="#">Гайды</a></li>
+                        <li><a href="#">Правила</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Fort Sterling</li>
+                        <li><i class="fas fa-envelope"></i> info@enforcer.ru</li>
+                        <li><i class="fab fa-discord"></i> enforcer.gg/discord</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Гильдия Enforcer • Данные с европейского сервера</p>
+                <p id="lastUpdateTime"></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/mobile.js"></script>
+    <script>
+        const CITY_DATA = {
+            'fort-sterling': {
+                icon: '❄️',
+                name: 'Fort Sterling',
+                biome: 'Безопасный регион',
+                desc: 'Северная столица • Снега',
+                refine: ['Древесина +40%'],
+                craft: ['Молоты +15%', 'Копья +15%', 'Священный посох +15%', 'Латный шлем +15%', 'Тканевая броня +15%'],
+                farming: ['Куриное мясо +10%', 'Баранина +10%', 'Куриные яйца +10%', 'Репа +10%', 'Овечье молоко +10%', 'Ультра тысячелистник +10%'],
+                biomeResources: {
+                    primary: '⛏️ Руда',
+                    secondary: ['Камень', 'Ткань']
+                }
+            },
+            'lymhurst': {
+                icon: '🌲',
+                name: 'Lymhurst',
+                biome: 'Безопасный регион',
+                desc: 'Западный лес',
+                refine: ['Волокно +40%'],
+                craft: ['Мечи +15%', 'Луки +15%', 'Мистический +15%', 'Кожаный капюшон +15%', 'Кожаная обувь +15%'],
+                farming: ['Морковь +10%', 'Зубчатый лопух +10%', 'Гусиные яйца +10%', 'Тыква +10%'],
+                biomeResources: {
+                    primary: '🌲 Древесина',
+                    secondary: ['Камень', 'Кожа']
+                }
+            },
+            'bridgewatch': {
+                icon: '🏜️',
+                name: 'Bridgewatch',
+                biome: 'Безопасный регион',
+                desc: 'Пустыня',
+                refine: ['Камень +40%'],
+                craft: ['Арбалеты +15%', 'Кинжалы +15%', 'Проклятый +15%', 'Латная броня +15%', 'Тканевая обувь +15%'],
+                farming: ['Бобы +10%', 'Козье молоко +10%', 'Драконья ворсянка +10%', 'Кукурузные початки +10%'],
+                biomeResources: {
+                    primary: '🐪 Кожа',
+                    secondary: ['Ткань', 'Руда']
+                }
+            },
+            'martlock': {
+                icon: '⛰️',
+                name: 'Martlock',
+                biome: 'Безопасный регион',
+                desc: 'Высокогорье',
+                refine: ['Шкуры +40%'],
+                craft: ['Топоры +15%', 'Шесты +15%', 'Морозный +15%', 'Латная обувь +15%', 'Левая рука +25%'],
+                farming: ['Сноп пшеницы +10%', 'Картофель +10%', 'Тумановая наперстянка +10%', 'Коровье молоко +10%'],
+                biomeResources: {
+                    primary: '⛰️ Камень',
+                    secondary: ['Древесина', 'Руда']
+                }
+            },
+            'thetford': {
+                icon: '🌿',
+                name: 'Thetford',
+                biome: 'Безопасный регион',
+                desc: 'Болото',
+                refine: ['Руда +40%'],
+                craft: ['Булавы +15%', 'Древний посох +15%', 'Огненный +15%', 'Кожаная броня +15%', 'Тканевый колпак +15%'],
+                farming: ['Темпогриб +10%', 'Капуста +10%', 'Царский огнецвет +10%'],
+                biomeResources: {
+                    primary: '🧵 Ткань',
+                    secondary: ['Древесина', 'Кожа']
+                }
+            },
+            'caerleon': {
+                icon: '⚔️',
+                name: 'Caerleon',
+                biome: 'Безопасный регион',
+                desc: 'Город-крепость',
+                refine: ['+1% к переработке'],
+                craft: ['+1% к крафту', 'Собирательство +15%', 'Инструменты +15%', 'Пища +15%', 'Боевые перчатки +15%', 'Посох оборотня +15%'],
+                farming: ['Ярколист +10%', 'Драконья ворсянка +10%', 'Царский огнецвет +10%'],
+                biomeResources: {
+                    primary: '⚔️ Смешанные',
+                    secondary: ['Торговля', 'Банк']
+                }
+            },
+            'brecilien': {
+                icon: '🍄',
+                name: 'Brecilien',
+                biome: 'Туманы',
+                desc: 'Скрытый город',
+                refine: ['Нет бонуса'],
+                craft: ['Плащи +15%', 'Сумки +15%', 'Зелья +15%'],
+                farming: ['Все культуры +10%'],
+                biomeResources: {
+                    primary: '🌫️ Туманы',
+                    secondary: ['Аспекты', 'Редкие ресурсы']
+                }
+            }
+        };
+
+        let currentCity = 'fort-sterling';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGoldData();
+            loadCityPanel(currentCity);
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.querySelectorAll('.city-nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.city-nav-item').forEach(n => n.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCity = this.dataset.city;
+                    loadCityPanel(currentCity);
+                });
+            });
+        }
+
+        function loadCityPanel(cityId) {
+            const city = CITY_DATA[cityId];
+            
+            let html = `
+                <div class="city-panel-header">
+                    <div class="city-emoji">${city.icon}</div>
+                    <div class="city-title">
+                        <h2>${city.name}</h2>
+                        <span class="city-biome">${city.biome}</span>
+                        <p style="margin-top: 8px;">${city.desc}</p>
+                    </div>
+                </div>
+                
+                <div class="bonus-showcase">
+                    <div class="bonus-block">
+                        <h3>🏭 Переработка</h3>
+                        <div class="bonus-tag-cloud">
+                            ${city.refine.map(r => `<span class="bonus-tag">${r}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bonus-block">
+                        <h3>⚒️ Крафт</h3>
+                        <div class="bonus-tag-cloud">
+                            ${city.craft.slice(0, 4).map(r => `<span class="bonus-tag">${r}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bonus-block">
+                        <h3>🌾 Фермерство</h3>
+                        <div class="bonus-tag-cloud">
+                            ${city.farming.slice(0, 4).map(r => `<span class="bonus-tag">${r}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resources-block">
+                    <div class="resources-title">
+                        <i class="fas fa-map"></i> Ресурсы в биомах
+                    </div>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <span class="resource-icon">⭐</span>
+                            <div class="resource-info">
+                                <div class="resource-name priority-high">${city.biomeResources.primary}</div>
+                            </div>
+                        </div>
+                        ${city.biomeResources.secondary.map(res => `
+                            <div class="resource-item">
+                                <span class="resource-icon">🔹</span>
+                                <div class="resource-info">
+                                    <div class="resource-name">${res}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('cityPanel').innerHTML = html;
+            
+            if (cityId === 'fort-sterling') {
+                document.getElementById('cityPanel').classList.add('snow-effect');
+            } else {
+                document.getElementById('cityPanel').classList.remove('snow-effect');
+            }
+        }
+
+        async function loadGoldData() {
+            try {
+                const response = await fetch('https://europe.albion-online-data.com/api/v2/stats/gold');
+                const data = await response.json();
+                
+                if (data && data.length > 0) {
+                    const current = data[0];
+                    const prices = data.slice(0, 24).map(d => d.price);
+                    
+                    document.getElementById('goldPrice').textContent = `${current.price} сребра`;
+                    document.getElementById('goldTime').innerHTML = `<i class="fas fa-clock"></i> ${new Date(current.timestamp).toLocaleString('ru-RU')}`;
+                    
+                    const min = Math.min(...prices);
+                    const max = Math.max(...prices);
+                    document.getElementById('goldMinMax').textContent = `${min.toLocaleString()} / ${max.toLocaleString()}`;
+                    
+                    const avg = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length);
+                    document.getElementById('goldAvg').textContent = avg.toLocaleString();
+                    
+                    if (prices.length > 1) {
+                        const change = ((current.price - prices[1]) / prices[1] * 100).toFixed(2);
+                        document.getElementById('goldChange').innerHTML = change > 0 ? `+${change}%` : `${change}%`;
+                    }
+                    
+                    updateFreshnessIndicator(new Date(current.timestamp));
+                }
+            } catch (error) {
+                console.error('Ошибка золота:', error);
+            }
+        }
+
+        function updateFreshnessIndicator(timestamp) {
+            const indicator = document.querySelector('.freshness-indicator');
+            if (!indicator) return;
+            
+            const now = new Date();
+            const diffMinutes = Math.floor((now - timestamp) / 60000);
+            const dot = indicator.querySelector('.freshness-dot');
+            const text = indicator.querySelector('span:not(.freshness-dot)');
+            
+            if (diffMinutes < 15) {
+                dot.className = 'freshness-dot dot-fresh';
+                text.textContent = `🟢 Свежие данные (${diffMinutes} мин назад)`;
+            } else if (diffMinutes < 60) {
+                dot.className = 'freshness-dot dot-stale';
+                text.textContent = `🟠 Устаревают (${diffMinutes} мин назад)`;
+            } else {
+                dot.className = 'freshness-dot dot-old';
+                const hours = Math.floor(diffMinutes / 60);
+                text.textContent = `🔴 Старые данные (${hours} ч назад)`;
+            }
+            
+            document.getElementById('lastUpdateTime').textContent = 
+                `Последнее обновление: ${timestamp.toLocaleString('ru-RU')}`;
+        }
+    </script>
+</body>
+</html>

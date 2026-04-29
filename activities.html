@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Enforcer - Крусеядосные активности</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .activities-container {
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+        
+        .activities-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .activities-header h1 {
+            font-size: 3rem;
+            color: var(--white);
+            text-shadow: 0 0 15px var(--blue-violet);
+        }
+        
+        .activities-header .subtitle {
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .activity-card {
+            background: rgba(10, 26, 47, 0.8);
+            border: 2px solid var(--royal-blue);
+            border-radius: 25px;
+            margin: 40px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .activity-header {
+            background: linear-gradient(135deg, var(--indigo), var(--deep-navy));
+            padding: 20px 30px;
+            border-bottom: 2px solid var(--blue-violet);
+        }
+        
+        .activity-header h2 {
+            font-size: 2rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .activity-header h2 i {
+            color: var(--gold);
+        }
+        
+        .activity-content {
+            padding: 30px;
+        }
+        
+        .rules-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .rules-list li {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.7;
+        }
+        
+        .rules-list li:before {
+            content: '⚔️';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+        
+        .reward-box {
+            background: rgba(75, 0, 130, 0.3);
+            border: 2px dashed var(--gold);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .reward-box h3 {
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+        
+        .reward-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .reward-item i {
+            color: var(--gold);
+            font-size: 1.3rem;
+        }
+        
+        .chaos-row {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .chaos-faction {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid;
+        }
+        
+        .faction-khorne { background: rgba(139, 0, 0, 0.3); border-color: #8b0000; }
+        .faction-nurgle { background: rgba(0, 100, 0, 0.3); border-color: #006400; }
+        .faction-tzeentch { background: rgba(0, 0, 139, 0.3); border-color: #00008b; }
+        .faction-slaanesh { background: rgba(148, 0, 211, 0.3); border-color: #9400d3; }
+        
+        .punishment {
+            background: rgba(139, 0, 0, 0.2);
+            border-left: 4px solid #8b0000;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .daily-prophet {
+            background: linear-gradient(135deg, var(--deep-navy), var(--indigo));
+            border: 3px solid var(--gold);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 50px 0;
+        }
+        
+        .daily-prophet i {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+        
+        .caps-warning {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff4444;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+        
+        .caps-warning i {
+            color: #ff4444;
+            margin-right: 10px;
+        }
+
+        .guild-stats-widget {
+            background: rgba(10, 26, 47, 0.7);
+            border: 2px solid var(--royal-blue);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .stats-grid-small {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-item-small {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+        
+        .stat-value-small {
+            font-size: 1.8rem;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+        }
+        
+        .stat-label-small {
+            font-size: 0.8rem;
+            color: var(--light-steel);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://i.ibb.co/XfspBnpR/186ebc4c-0f81-4f95-b87c-e9e21d67350a.png" alt="Enforcer">
+                <span>ENFORCER</span>
+            </div>
+            <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">О гильдии</a></li>
+                <li><a href="codex.html">Кодекс</a></li>
+                <li><a href="ranks.html">Ранги</a></li>
+                <li><a href="activities.html" class="active">Активности</a></li>
+                <li><a href="roster.html">Состав</a></li>
+                <li><a href="calculator.html">Калькулятор</a></li>
+                <li><a href="market.html">Мониторинг</a></li>
+            </ul>
+            <a href="https://discord.gg/y6TAdWNkGq" class="nav-discord" target="_blank">
+                <i class="fab fa-discord"></i> <span>Discord</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>⚡ КРУСЕЯДОСНЫЕ АКТИВНОСТИ ⚡</h1>
+        <p>Для истинных фанатиков Империума в рядах Enforcer!</p>
+    </section>
+
+    <main>
+        <div class="container">
+            <div class="activities-container">
+                <!-- Виджет статистики гильдии (живые данные) -->
+                <div class="guild-stats-widget">
+                    <h3 style="color: var(--gold); margin-bottom: 20px;"><i class="fas fa-chart-line"></i> СТАТИСТИКА ГИЛЬДИИ</h3>
+                    <div class="stats-grid-small">
+                        <div class="stat-item-small">
+                            <div class="stat-value-small" id="guildMembers">—</div>
+                            <div class="stat-label-small">Участников</div>
+                        </div>
+                        <div class="stat-item-small">
+                            <div class="stat-value-small" id="guildOnline">—</div>
+                            <div class="stat-label-small">Онлайн</div>
+                        </div>
+                        <div class="stat-item-small">
+                            <div class="stat-value-small" id="guildKillFame">—</div>
+                            <div class="stat-label-small">Kill Fame</div>
+                        </div>
+                        <div class="stat-item-small">
+                            <div class="stat-value-small" id="guildDeathFame">—</div>
+                            <div class="stat-label-small">Death Fame</div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #888;">
+                        * Данные обновляются с albiondb.net
+                    </p>
+                </div>
+
+                <!-- 1. ИНКВИЗИТОРСКИЙ ТРИБУНАЛ -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h2><i class="fas fa-gavel"></i> ИНКВИЗИТОРСКИЙ ТРИБУНАЛ</h2>
+                    </div>
+                    <div class="activity-content">
+                        <h3 style="color: var(--royal-blue);">📜 Правила</h3>
+                        <ul class="rules-list">
+                            <li>Один участник назначается «Еретиком» (тайно или по жребию).</li>
+                            <li>Остальные — «Инквизиторы», ведущие допрос.</li>
+                            <li>Еретик должен скрывать свою «вину», но может подставлять других.</li>
+                            <li>Цель: Разоблачить предателя до того, как он прокричит в чат «За Темных Богов!».</li>
+                        </ul>
+                        
+                        <div class="reward-box">
+                            <h3>🎁 Награда</h3>
+                            <div class="reward-item">
+                                <i class="fas fa-certificate"></i>
+                                <div><strong>Успешный Инквизитор</strong> — получает «Розетту Истины» (право на 1 бан в день).</div>
+                            </div>
+                            <div class="reward-item">
+                                <i class="fas fa-skull"></i>
+                                <div><strong>Пойманный Еретик</strong> — обязан писать все сообщения в стиле «Я недостоин!» 24 часа.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. МЕХАНИКУС: ТЕХНО-ЕРЕСЬ -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h2><i class="fas fa-microchip"></i> МЕХАНИКУС: ТЕХНО-ЕРЕСЬ</h2>
+                    </div>
+                    <div class="activity-content">
+                        <ul class="rules-list">
+                            <li>Участники играют Техножрецов, которые обнаружили «запрещенный артефакт».</li>
+                            <li>Каждый предлагает, как его использовать: Ортодокс vs Радикал.</li>
+                            <li>Спорят, пока Верховный Фабрикатор не вынесет вердикт.</li>
+                        </ul>
+                        
+                        <div class="reward-box">
+                            <h3>🎁 Награда</h3>
+                            <div class="reward-item">
+                                <i class="fas fa-gear"></i>
+                                <div><strong>Лучший аргумент</strong> — право назвать следующий гильд-ивент.</div>
+                            </div>
+                            <div class="reward-item">
+                                <i class="fas fa-robot"></i>
+                                <div><strong>Проигравший</strong> — ник меняется на «Слуга Машины-Демона» на сутки.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. АСТРАТЕС: ИСПЫТАНИЕ ДОКСАТЫ -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h2><i class="fas fa-user-astronaut"></i> АСТРАТЕС: ИСПЫТАНИЕ ДОКСАТЫ</h2>
+                    </div>
+                    <div class="activity-content">
+                        <ul class="rules-list">
+                            <li><strong>«Клятва на Крови»</strong> — написать клятву верности в стиле Warhammer 40k.</li>
+                            <li><strong>«Прогнать Демона»</strong> — RP-монолог, убедить что вы не одержимы.</li>
+                            <li><strong>«Последний Выстрел»</strong> — описать эпичную смерть в бою.</li>
+                        </ul>
+                        
+                        <div class="reward-box">
+                            <div class="reward-item">
+                                <i class="fas fa-crown"></i>
+                                <div><strong>Прошедший испытания</strong> — получает «Череп Просветления» (особую роль в Discord).</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. ВОЙНА В ВАРПЕ -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h2><i class="fas fa-dragon"></i> ВОЙНА В ВАРПЕ</h2>
+                    </div>
+                    <div class="activity-content">
+                        <p style="margin-bottom: 20px;">Участники делятся на 4 фракции Хаоса:</p>
+                        
+                        <div class="chaos-row">
+                            <div class="chaos-faction faction-khorne">
+                                <h4 style="color: #ff4444;">Кхорн</h4>
+                                <p>Угрожать кровавой резнёй</p>
+                            </div>
+                            <div class="chaos-faction faction-nurgle">
+                                <h4 style="color: #4caf50;">Нургл</h4>
+                                <p>Раздавать «болезненные» советы</p>
+                            </div>
+                            <div class="chaos-faction faction-tzeentch">
+                                <h4 style="color: #4169e1;">Тзинч</h4>
+                                <p>Загадывать нерешаемые загадки</p>
+                            </div>
+                            <div class="chaos-faction faction-slaanesh">
+                                <h4 style="color: #9370db;">Слаанеш</h4>
+                                <p>Соблазнять на «падение»</p>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Цель:</strong> Переманить на свою сторону нейтральных игроков.</p>
+                        
+                        <div class="reward-box">
+                            <div class="reward-item">
+                                <i class="fas fa-crown"></i>
+                                <div><strong>Победившая фракция</strong> — право сменить тему чата на день.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. ОХОТА НА ПСИКЕРА -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h2><i class="fas fa-brain"></i> ОХОТА НА ПСИКЕРА</h2>
+                    </div>
+                    <div class="activity-content">
+                        <ul class="rules-list">
+                            <li>Один участник — «Несанкционированный псикер» (тайно выбранный).</li>
+                            <li>Остальные — «Чёрные Терминаторы», ищущие его.</li>
+                            <li>Псикер должен периодически выдавать себя, но избегать прямых признаний.</li>
+                        </ul>
+                        
+                        <div class="reward-box">
+                            <div class="reward-item">
+                                <i class="fas fa-crown"></i>
+                                <div><strong>Если псикера не поймали за 1 час</strong> — иммунитет к банам на сутки.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- БОНУС: ПРОРОК ИМПЕРИУМА -->
+                <div class="daily-prophet">
+                    <i class="fas fa-church"></i>
+                    <h2>ПРОРОК ИМПЕРИУМА</h2>
+                    <p style="margin: 20px 0;">Каждый день один участник становится «Проповедником» и пишет мотивационные цитаты в стиле Warhammer 40k.</p>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 10px;">
+                        <strong>Награда:</strong> «Благодать Императора» (право закрепить 1 сообщение).
+                    </div>
+                </div>
+
+                <!-- ВАЖНО -->
+                <div class="punishment">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>ВАЖНО:</strong> Нарушающие священные догмы получают «Экскоммуникатэ» (бан на 12 часов).
+                </div>
+
+                <div class="caps-warning">
+                    <i class="fas fa-skull"></i>
+                    Для антуража используйте CAPS LOCK, кровавые эмодзи 🩸💀 и цитаты из «Кодекс Астартес».
+                </div>
+
+                <div style="text-align: center; margin: 40px 0; font-size: 2rem; color: var(--gold);">
+                    «ДА ЗДРАВСТВУЕТ ИМПЕРИУМ ЧЕЛОВЕКА! ENFORCER — ЕГО МОЛОТ!» 🔨⚡
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Enforcer</h4>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О гильдии</a></li>
+                        <li><a href="codex.html">Кодекс</a></li>
+                        <li><a href="ranks.html">Табель о рангах</a></li>
+                        <li><a href="activities.html">Активности</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Инструменты</h4>
+                    <ul>
+                        <li><a href="roster.html">Состав</a></li>
+                        <li><a href="calculator.html">Калькулятор крафта</a></li>
+                        <li><a href="market.html">Мониторинг рынка</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ресурсы</h4>
+                    <ul>
+                        <li><a href="https://discord.gg/y6TAdWNkGq" target="_blank">Discord</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Гильдия Enforcer • Основана 8 июля 2025 года</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/mobile.js"></script>
+    <script src="js/guild-stats.js"></script>
+</body>
+</html>

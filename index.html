@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Enforcer - Северный орден</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .hero-main {
+            height: 90vh;
+            background: linear-gradient(135deg, rgba(10, 15, 30, 0.9), rgba(75, 0, 130, 0.8)), 
+                        url('https://images.unsplash.com/photo-1486718448742-163732cdc3a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 5px solid var(--blue-violet);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 40px;
+        }
+        
+        .hero-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid var(--gold);
+            box-shadow: 0 0 50px var(--royal-blue);
+            margin-bottom: 30px;
+            animation: glowPulse 3s infinite;
+        }
+        
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 50px var(--royal-blue); }
+            50% { box-shadow: 0 0 80px var(--blue-violet); }
+            100% { box-shadow: 0 0 50px var(--royal-blue); }
+        }
+        
+        .hero-main h1 {
+            font-size: 6rem;
+            text-shadow: 4px 4px 0 var(--blue-violet), 8px 8px 0 var(--indigo);
+            margin-bottom: 20px;
+        }
+        
+        .devis {
+            font-size: 2rem;
+            font-family: var(--header-font);
+            color: var(--gold);
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(10, 26, 47, 0.7);
+            border: 2px solid var(--royal-blue);
+            border-radius: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-family: var(--header-font);
+            color: var(--gold);
+            font-weight: 800;
+        }
+        
+        .stat-label {
+            color: var(--light-steel);
+            margin-top: 10px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 26, 47, 0.5);
+            border: 2px solid var(--royal-blue);
+            border-radius: 20px;
+        }
+        
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--indigo), var(--deep-navy));
+            border: 3px solid var(--gold);
+            border-radius: 30px;
+            padding: 60px;
+            text-align: center;
+            margin: 60px 0;
+        }
+        
+        .cta-section h2 {
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--royal-blue), var(--blue-violet));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-family: var(--header-font);
+            font-weight: 600;
+            transition: transform 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gold);
+        }
+        
+        .founding-date {
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://i.ibb.co/XfspBnpR/186ebc4c-0f81-4f95-b87c-e9e21d67350a.png" alt="Enforcer">
+                <span>ENFORCER</span>
+            </div>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Главная</a></li>
+                <li><a href="about.html">О гильдии</a></li>
+                <li><a href="codex.html">Кодекс</a></li>
+                <li><a href="ranks.html">Ранги</a></li>
+                <li><a href="activities.html">Активности</a></li>
+                <li><a href="roster.html">Состав</a></li>
+                <li><a href="calculator.html">Калькулятор</a></li>
+                <li><a href="market.html">Мониторинг</a></li>
+            </ul>
+            <a href="https://discord.gg/y6TAdWNkGq" class="nav-discord" target="_blank">
+                <i class="fab fa-discord"></i> <span>Discord</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero-main">
+        <div class="hero-content">
+            <img src="https://i.ibb.co/XfspBnpR/186ebc4c-0f81-4f95-b87c-e9e21d67350a.png" alt="Герб Enforcer" class="hero-logo">
+            <h1>ENFORCER</h1>
+            <div class="devis">«Куём победу. Храним порядок.»</div>
+            <div class="hero-buttons">
+                <a href="about.html" class="btn">Узнать больше</a>
+                <a href="https://discord.gg/y6TAdWNkGq" class="btn btn-outline" target="_blank">Наш Discord</a>
+            </div>
+            <div class="founding-date">
+                <i class="fas fa-calendar-alt"></i> Основана 8 июля 2025 года
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Гильдия в цифрах</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="guildMembers">—</div>
+                    <div class="stat-label">Активных бойцов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="guildOnline">—</div>
+                    <div class="stat-label">Сейчас онлайн</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="guildKillFame">—</div>
+                    <div class="stat-label">Kill Fame</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="guildDeathFame">—</div>
+                    <div class="stat-label">Death Fame</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Почему мы</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shield-hammer"></i>
+                    <h3>Крафт T8</h3>
+                    <p>Собственное производство топовой брони и оружия</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-helmet-battle"></i>
+                    <h3>Регулярные CTA</h3>
+                    <p>Ежедневные сборы и подготовка к ZvZ</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-tree-pine"></i>
+                    <h3>Северные территории</h3>
+                    <p>Контроль над ресурсными зонами Fort Sterling</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>Обучение новичков</h3>
+                    <p>Система наставничества «Юнга → Матрос»</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="cta-section">
+                <h2>Готов к суровым испытаниям?</h2>
+                <p style="font-size: 1.3rem; margin: 30px 0;">Присоединяйся к северному ордену сегодня</p>
+                <a href="https://discord.gg/y6TAdWNkGq" class="btn" target="_blank">
+                    <i class="fab fa-discord"></i> Стать Enforcer'ом
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Enforcer</h4>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О гильдии</a></li>
+                        <li><a href="codex.html">Кодекс</a></li>
+                        <li><a href="ranks.html">Табель о рангах</a></li>
+                        <li><a href="activities.html">Активности</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Инструменты</h4>
+                    <ul>
+                        <li><a href="roster.html">Состав</a></li>
+                        <li><a href="calculator.html">Калькулятор крафта</a></li>
+                        <li><a href="market.html">Мониторинг рынка</a></li>
+                        <li><a href="bonuses.html">Бонусы городов</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ресурсы</h4>
+                    <ul>
+                        <li><a href="https://discord.gg/y6TAdWNkGq" target="_blank">Discord</a></li>
+                        <li><a href="https://forum.albiononline.com/" target="_blank">Форум Albion</a></li>
+                        <li><a href="https://albiononline.com/ru/home" target="_blank">Официальный сайт</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Гильдия Enforcer • Основана 8 июля 2025 года</p>
+                <p>⚔️ «Мы не ждём — мы владеем!» ⚔️</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/mobile.js"></script>
+    <script src="js/guild-stats.js"></script>
+</body>
+</html>

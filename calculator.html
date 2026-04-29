@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Enforcer - Калькулятор крафта</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .tabs-container {
+            margin: 20px 0;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 2px solid var(--royal-blue);
+            padding-bottom: 10px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .tab {
+            padding: 12px 30px;
+            background: rgba(10, 15, 30, 0.7);
+            border: 2px solid var(--royal-blue);
+            border-radius: 30px 30px 0 0;
+            color: var(--light-steel);
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            border-bottom: none;
+        }
+        
+        .tab:hover { background: rgba(65, 105, 225, 0.3); }
+        .tab.active { background: linear-gradient(135deg, var(--royal-blue), var(--blue-violet)); color: white; border-color: var(--gold); }
+        .tab.coming-soon { opacity: 0.7; position: relative; }
+        .tab.coming-soon::after {
+            content: "Скоро";
+            position: absolute;
+            top: -8px;
+            right: 5px;
+            font-size: 0.6rem;
+            background: var(--gold);
+            color: var(--deep-navy);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .categories-scroll {
+            display: flex;
+            gap: 10px;
+            padding: 20px 0 10px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+        
+        .categories-scroll::-webkit-scrollbar { height: 4px; }
+        .categories-scroll::-webkit-scrollbar-thumb { background: var(--royal-blue); border-radius: 10px; }
+        
+        .category-btn {
+            padding: 8px 20px;
+            background: rgba(10, 15, 30, 0.7);
+            border: 2px solid var(--royal-blue);
+            border-radius: 30px;
+            color: var(--light-steel);
+            font-family: 'Cinzel', serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .category-btn:hover,
+        .category-btn.active { background: linear-gradient(135deg, var(--royal-blue), var(--blue-violet)); color: white; border-color: var(--gold); }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(10, 15, 30, 0.5);
+            border-radius: 20px;
+            border: 2px solid var(--royal-blue);
+        }
+        
+        @media (max-width: 768px) { .items-grid { grid-template-columns: repeat(2, 1fr); max-height: 250px; } }
+        
+        .item-card {
+            background: rgba(10, 26, 47, 0.8);
+            border: 2px solid var(--royal-blue);
+            border-radius: 15px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .item-card:hover { transform: translateY(-2px); border-color: var(--gold); }
+        .item-card.selected { border-color: var(--gold); background: linear-gradient(135deg, rgba(65, 105, 225, 0.3), rgba(138, 43, 226, 0.3)); }
+        
+        .item-tier { font-size: 0.75rem; color: var(--gold); margin-bottom: 4px; }
+        .item-name { font-weight: 600; color: var(--white); font-size: 0.9rem; word-break: break-word; }
+        
+        .quantity-panel {
+            background: rgba(10, 26, 47, 0.8);
+            border: 3px solid var(--royal-blue);
+            border-radius: 25px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .quantity-label { font-family: 'Cinzel', serif; color: var(--white); font-size: 1.2rem; }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .quantity-input {
+            width: 100px;
+            padding: 12px;
+            background: rgba(10, 15, 30, 0.7);
+            border: 2px solid var(--royal-blue);
+            border-radius: 15px;
+            color: var(--white);
+            font-size: 1.2rem;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .quantity-input:focus { outline: none; border-color: var(--gold); }
+        
+        .quantity-btns { display: flex; gap: 5px; }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(10, 15, 30, 0.7);
+            border: 2px solid var(--royal-blue);
+            color: var(--white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-btn:hover { border-color: var(--gold); background: linear-gradient(135deg, var(--royal-blue), var(--blue-violet)); }
+        
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--royal-blue), var(--blue-violet));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            white-space: nowrap;
+        }
+        
+        .calculate-btn:hover { transform: scale(1.02); }
+        
+        .info-block {
+            background: rgba(75, 0, 130, 0.3);
+            border: 2px dashed var(--royal-blue);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .info-icon { font-size: 2rem; color: var(--gold); }
+        .info-text { flex: 1; }
+        .info-title { font-family: 'Cinzel', serif; color: var(--white); margin-bottom: 5px; }
+        
+        .matrix-section {
+            background: rgba(10, 26, 47, 0.8);
+            border: 3px solid var(--royal-blue);
+            border-radius: 25px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .matrix-section h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--white);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .matrix-wrapper { min-width: 800px; }
+        
+        .matrix-header {
+            display: flex;
+            margin-bottom: 15px;
+            padding-left: 220px;
+        }
+        
+        .tier-header {
+            min-width: 100px;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            padding: 8px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .tier-header.t2 { background: rgba(152, 251, 152, 0.2); color: var(--tier2); border-bottom: 3px solid var(--tier2); }
+        .tier-header.t3 { background: rgba(135, 206, 235, 0.2); color: var(--tier3); border-bottom: 3px solid var(--tier3); }
+        .tier-header.t4 { background: rgba(255, 182, 193, 0.2); color: var(--tier4); border-bottom: 3px solid var(--tier4); }
+        .tier-header.t5 { background: rgba(221, 160, 221, 0.2); color: var(--tier5); border-bottom: 3px solid var(--tier5); }
+        .tier-header.t6 { background: rgba(244, 164, 96, 0.2); color: var(--tier6); border-bottom: 3px solid var(--tier6); }
+        .tier-header.t7 { background: rgba(205, 133, 63, 0.2); color: var(--tier7); border-bottom: 3px solid var(--tier7); }
+        .tier-header.t8 { background: rgba(184, 134, 11, 0.2); color: var(--tier8); border-bottom: 3px solid var(--tier8); }
+        
+        .matrix-row { display: flex; gap: 5px; margin-bottom: 5px; align-items: center; }
+        
+        .row-label {
+            min-width: 220px;
+            padding: 12px;
+            background: rgba(26, 31, 53, 0.8);
+            border-radius: 10px;
+            font-weight: 500;
+            border-left: 4px solid var(--royal-blue);
+        }
+        
+        .row-label i { color: var(--gold); margin-right: 8px; }
+        
+        .matrix-cell {
+            min-width: 100px;
+            padding: 12px;
+            background: rgba(10, 15, 30, 0.7);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .matrix-cell.has-resource {
+            background: linear-gradient(135deg, rgba(65, 105, 225, 0.3), rgba(138, 43, 226, 0.3));
+            border: 2px solid var(--royal-blue);
+        }
+        
+        .matrix-cell .amount { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; color: var(--white); }
+        .matrix-cell .formula { font-size: 0.7rem; color: var(--gold); margin-top: 4px; }
+        
+        .matrix-cell.t2 { border-left: 4px solid var(--tier2); }
+        .matrix-cell.t3 { border-left: 4px solid var(--tier3); }
+        .matrix-cell.t4 { border-left: 4px solid var(--tier4); }
+        .matrix-cell.t5 { border-left: 4px solid var(--tier5); }
+        .matrix-cell.t6 { border-left: 4px solid var(--tier6); }
+        .matrix-cell.t7 { border-left: 4px solid var(--tier7); }
+        .matrix-cell.t8 { border-left: 4px solid var(--tier8); }
+        
+        .total-row {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(65, 105, 225, 0.3), rgba(138, 43, 226, 0.3));
+            border-radius: 15px;
+            border: 2px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Cinzel', serif;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .total-stats { display: flex; gap: 30px; flex-wrap: wrap; }
+        .total-stat { display: flex; flex-direction: column; }
+        .total-label { font-size: 0.8rem; color: var(--light-steel); }
+        .total-value { font-size: 1.3rem; color: var(--gold); }
+        
+        .history-section {
+            background: rgba(10, 26, 47, 0.8);
+            border: 3px solid var(--royal-blue);
+            border-radius: 25px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .history-header h2 { font-family: 'Cinzel', serif; color: var(--white); display: flex; align-items: center; gap: 10px; }
+        
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        @media (max-width: 768px) { .history-grid { grid-template-columns: 1fr; } }
+        
+        .history-card {
+            background: rgba(10, 15, 30, 0.7);
+            border: 2px solid var(--royal-blue);
+            border-radius: 15px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .history-card:hover { border-color: var(--gold); }
+        
+        .history-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .history-card-name { font-weight: 600; color: var(--white); }
+        .history-card-delete { color: #f44336; cursor: pointer; }
+        .history-card-details { display: flex; gap: 15px; font-size: 0.9rem; margin-bottom: 5px; }
+        .history-card-time { font-size: 0.75rem; color: var(--light-steel); }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary {
+            background: rgba(10, 15, 30, 0.7);
+            border: 2px solid var(--royal-blue);
+            color: var(--light-steel);
+        }
+        
+        .btn-secondary:hover { border-color: var(--gold); }
+        
+        .development-block {
+            background: rgba(10, 26, 47, 0.8);
+            border: 3px solid var(--royal-blue);
+            border-radius: 25px;
+            padding: 60px 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .development-icon { font-size: 4rem; color: var(--gold); margin-bottom: 20px; }
+        .development-title { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--white); margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://i.ibb.co/XfspBnpR/186ebc4c-0f81-4f95-b87c-e9e21d67350a.png" alt="Enforcer">
+                <span>ENFORCER</span>
+            </div>
+            <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">О гильдии</a></li>
+                <li><a href="codex.html">Кодекс</a></li>
+                <li><a href="ranks.html">Ранги</a></li>
+                <li><a href="activities.html">Активности</a></li>
+                <li><a href="roster.html">Состав</a></li>
+                <li><a href="calculator.html" class="active">Калькулятор</a></li>
+                <li><a href="market.html">Мониторинг</a></li>
+            </ul>
+            <a href="https://discord.gg/y6TAdWNkGq" class="nav-discord" target="_blank">
+                <i class="fab fa-discord"></i> <span>Discord</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>Калькулятор крафта</h1>
+        <p>Матрица ресурсов T2 → T8</p>
+    </section>
+
+    <div class="container">
+        <!-- Вкладки основных категорий -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="weapons">⚔️ Оружие</div>
+                <div class="tab coming-soon" data-tab="armor">🛡️ Броня</div>
+                <div class="tab coming-soon" data-tab="consumables">🧪 Расходники</div>
+            </div>
+        </div>
+
+        <!-- Контент для Оружия (активный) -->
+        <div id="weapons-content">
+            <div class="categories-scroll" id="categories">
+                <button class="category-btn active" data-category="all">Все</button>
+                <button class="category-btn" data-category="arbalet">Арбалеты</button>
+                <button class="category-btn" data-category="axe">Топоры</button>
+                <button class="category-btn" data-category="hammer">Молоты</button>
+                <button class="category-btn" data-category="sword">Мечи</button>
+            </div>
+
+            <div class="info-block">
+                <div class="info-icon"><i class="fas fa-info-circle"></i></div>
+                <div class="info-text">
+                    <div class="info-title">🔮 Уникальные предметы (Артефакты)</div>
+                    <div class="info-description">
+                        Для крафта уникальных предметов требуются особые компоненты. 
+                        Планируется добавить их в калькулятор.
+                    </div>
+                </div>
+            </div>
+
+            <div class="items-grid" id="itemsGrid"></div>
+
+            <div class="quantity-panel">
+                <span class="quantity-label">Количество:</span>
+                <div class="quantity-control">
+                    <input type="number" class="quantity-input" id="quantityInput" min="1" value="1">
+                    <div class="quantity-btns">
+                        <button class="quantity-btn" onclick="CalculatorFunctions.adjustQuantity(-1)">−</button>
+                        <button class="quantity-btn" onclick="CalculatorFunctions.adjustQuantity(1)">+</button>
+                    </div>
+                </div>
+                <button class="calculate-btn" id="calculateBtn">
+                    <i class="fas fa-calculator"></i> Рассчитать
+                </button>
+                <button class="btn btn-secondary" onclick="CalculatorFunctions.saveToHistory()">
+                    <i class="fas fa-save"></i> Сохранить
+                </button>
+            </div>
+
+            <div class="matrix-section">
+                <h2><i class="fas fa-table"></i> Матрица ресурсов</h2>
+                <div class="matrix-wrapper" id="matrixContainer"></div>
+                
+                <div class="total-row" id="totalRow">
+                    <span>📊 Итого ресурсов:</span>
+                    <div class="total-stats" id="totalStats"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Контент для Брони (в разработке) -->
+        <div id="armor-content" style="display: none;">
+            <div class="development-block">
+                <div class="development-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="development-title">🛡️ Броня</div>
+                <div class="development-text">Раздел в разработке. Скоро здесь появятся рецепты для всей брони.</div>
+            </div>
+        </div>
+
+        <!-- Контент для Расходников (в разработке) -->
+        <div id="consumables-content" style="display: none;">
+            <div class="development-block">
+                <div class="development-icon"><i class="fas fa-flask"></i></div>
+                <div class="development-title">🧪 Расходники</div>
+                <div class="development-text">Раздел в разработке.</div>
+            </div>
+        </div>
+
+        <!-- История -->
+        <div class="history-section">
+            <div class="history-header">
+                <h2><i class="fas fa-history"></i> История расчётов</h2>
+                <button class="btn btn-secondary" id="clearHistoryBtn">
+                    <i class="fas fa-trash"></i> Очистить
+                </button>
+            </div>
+            <div class="history-grid" id="historyGrid"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Enforcer</h4>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О гильдии</a></li>
+                        <li><a href="codex.html">Кодекс</a></li>
+                        <li><a href="ranks.html">Табель о рангах</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Инструменты</h4>
+                    <ul>
+                        <li><a href="calculator.html">Калькулятор крафта</a></li>
+                        <li><a href="market.html">Мониторинг рынка</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ресурсы</h4>
+                    <ul>
+                        <li><a href="https://discord.gg/y6TAdWNkGq" target="_blank">Discord</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Гильдия Enforcer • Основана 8 июля 2025 года</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/mobile.js"></script>
+    <script src="js/calculator.js"></script>
+</body>
+</html>

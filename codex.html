@@ -1,0 +1,440 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Enforcer - Кодекс гильдии</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .codex-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(10, 26, 47, 0.7);
+            border: 3px solid var(--royal-blue);
+            border-radius: 25px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .codex-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--royal-blue), var(--blue-violet), var(--royal-blue));
+        }
+        
+        .codex-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+            padding-bottom: 20px;
+        }
+        
+        .codex-header h1 {
+            font-size: 3rem;
+            color: var(--white);
+            text-shadow: 0 0 15px var(--blue-violet);
+            margin-bottom: 10px;
+        }
+        
+        .codex-header .subtitle {
+            font-size: 1.2rem;
+            color: var(--gold);
+            font-style: italic;
+            letter-spacing: 2px;
+        }
+        
+        .codex-header .blood-motto {
+            color: #8b0000;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        
+        .law-section {
+            margin: 35px 0;
+            border-left: 4px solid var(--blue-violet);
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .law-section.warrior { border-left-color: #b22222; }
+        .law-section.crafter { border-left-color: #b8860b; }
+        .law-section.gatherer { border-left-color: #228b22; }
+        .law-section.unforgivable { border-left-color: #4b0082; }
+        .law-section.virtues { border-left-color: var(--gold); }
+        
+        .section-icon {
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--indigo);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--royal-blue);
+            font-size: 1.3rem;
+        }
+        
+        .law-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .law-section h2 i { color: var(--gold); }
+        
+        .law-item {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+        
+        .law-title {
+            font-size: 1.3rem;
+            color: var(--royal-blue);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .law-title i { margin-right: 10px; color: var(--gold); }
+        
+        .punishment {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(139, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 3px solid #8b0000;
+        }
+        
+        .virtue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .virtue-card {
+            background: rgba(75, 0, 130, 0.3);
+            border: 1px solid var(--royal-blue);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .virtue-card i { font-size: 2.5rem; color: var(--gold); margin-bottom: 10px; }
+        .virtue-card h3 { color: var(--white); margin-bottom: 8px; }
+        
+        .oath-box {
+            margin: 40px 0 20px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--blue-violet);
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .oath-box::before,
+        .oath-box::after {
+            content: '⚔️';
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        .oath-box::before { top: 10px; left: 20px; transform: rotate(-30deg); }
+        .oath-box::after { bottom: 10px; right: 20px; transform: rotate(150deg); }
+        
+        .oath-text {
+            font-size: 1.3rem;
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+        
+        .triumvirate {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .triumvir-card {
+            background: rgba(10, 15, 30, 0.8);
+            border: 2px solid var(--royal-blue);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 180px;
+            text-align: center;
+        }
+        
+        .triumvir-card .title { color: var(--blue-violet); font-weight: 600; }
+        .triumvir-card .name { color: var(--gold); font-size: 1.2rem; }
+        
+        .beginner-notes {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(30, 30, 60, 0.5);
+            border-radius: 15px;
+        }
+        
+        .note-item {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        
+        .note-item i { color: var(--gold); font-size: 1.3rem; min-width: 30px; }
+        
+        .foundation-date {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-size: 1.2rem;
+            color: var(--gold);
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+            padding-top: 30px;
+        }
+        
+        .foundation-date strong {
+            font-size: 2rem;
+            display: block;
+            color: var(--white);
+            text-shadow: 0 0 10px var(--blue-violet);
+        }
+        
+        @media (max-width: 768px) {
+            .codex-container { padding: 20px; }
+            .codex-header h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://i.ibb.co/XfspBnpR/186ebc4c-0f81-4f95-b87c-e9e21d67350a.png" alt="Enforcer">
+                <span>ENFORCER</span>
+            </div>
+            <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">О гильдии</a></li>
+                <li><a href="codex.html" class="active">Кодекс</a></li>
+                <li><a href="ranks.html">Ранги</a></li>
+                <li><a href="activities.html">Активности</a></li>
+                <li><a href="roster.html">Состав</a></li>
+                <li><a href="calculator.html">Калькулятор</a></li>
+                <li><a href="market.html">Мониторинг</a></li>
+            </ul>
+            <a href="https://discord.gg/y6TAdWNkGq" class="nav-discord" target="_blank">
+                <i class="fab fa-discord"></i> <span>Discord</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>⚜️ КОДЕКС ГИЛЬДИИ ⚜️</h1>
+        <p>"Кровью и серебром скреплены наши узы"</p>
+    </section>
+
+    <main>
+        <div class="container">
+            <div class="codex-container">
+                <div class="codex-header">
+                    <h1>ENFORCER</h1>
+                    <div class="subtitle">"Кровью и серебром скреплены наши узы. Никто не избежит взора Enforcer!"</div>
+                    <div class="blood-motto">⚔️ FORT STERLING НАДЗИРАЕТ! ⚔️</div>
+                </div>
+
+                <!-- ЗАКОНЫ ВОИНА -->
+                <div class="law-section warrior">
+                    <div class="section-icon">⚔️</div>
+                    <h2><i class="fas fa-shield-hammer"></i> ЗАКОНЫ ВОИНА</h2>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-shield-alt"></i> 1. "Твой щит — стена гильдии"</div>
+                        <div class="law-desc">Минимальный стандарт: T5.1+ снаряжение для групповых операций. Мультиспециализация приветствуется, но мастерство в одном классе даёт преимущество в распределении добычи.</div>
+                    </div>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-helmet-battle"></i> 2. "Дисциплина — твоя броня"</div>
+                        <div class="law-desc">Самовольный отход без приказа влечёт наказание.</div>
+                        <div class="punishment"><i class="fas fa-skull"></i> "Искупление кровью" — обязательное участие в 3 рейдах без доли в трофеях.</div>
+                    </div>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-coins"></i> 3. "Трофеи — наша мощь"</div>
+                        <div class="law-desc">25% добычи — в общую казну. Особо ценные трофеи обсуждаются на Совете Стальных.</div>
+                    </div>
+                </div>
+
+                <!-- КЛЯТВА РЕМЕСЛЕННИКА -->
+                <div class="law-section crafter">
+                    <div class="section-icon">🔨</div>
+                    <h2><i class="fas fa-hammer"></i> КЛЯТВА РЕМЕСЛЕННИКА</h2>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-tools"></i> 4. "Руки, творящие для ордена"</div>
+                        <div class="law-desc">Приоритет — гильдейские заказы.</div>
+                        <div class="punishment"><i class="fas fa-fire"></i> "Испытание Огнём" — умышленный брак карается крафтом 50 предметов для гильдии без вознаграждения.</div>
+                    </div>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-broom"></i> 5. "Порядок в кузнице"</div>
+                        <div class="law-desc">Захламление рабочих станций</div>
+                        <div class="punishment"><i class="fas fa-church"></i> "Чистилище" — принудительная уборка всех гильдейских станций в течение 3 дней.</div>
+                    </div>
+                </div>
+
+                <!-- КАНУНЫ ДОБЫТЧИКА -->
+                <div class="law-section gatherer">
+                    <div class="section-icon">⛏️</div>
+                    <h2><i class="fas fa-tree"></i> КАНУНЫ ДОБЫТЧИКА</h2>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-mountain"></i> 6. "Земля даёт — гильдия берёт"</div>
+                        <div class="law-desc">20% ресурсов — в общий склад.</div>
+                        <div class="punishment"><i class="fas fa-skull-crossbones"></i> Продажа врагам = "Изгнание в Пустоши".</div>
+                    </div>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-users"></i> 7. "Один за всех"</div>
+                        <div class="law-desc">Добыча в Чёрной зоне без страховочного отряда</div>
+                        <div class="punishment"><i class="fas fa-dragon"></i> "Танец с Тенями" — обязательное сопровождение новичков в 5 рейдах.</div>
+                    </div>
+                </div>
+
+                <!-- НЕПРОЩАЕМОЕ -->
+                <div class="law-section unforgivable">
+                    <div class="section-icon">💀</div>
+                    <h2><i class="fas fa-ban"></i> НЕПРОЩАЕМОЕ</h2>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-skull"></i> Измена</div>
+                        <div class="punishment"><i class="fas fa-cross"></i> "Клеймо Предателя" — публичная казнь персонажа + охота гильдии на 2 недели.</div>
+                    </div>
+                    
+                    <div class="law-item">
+                        <div class="law-title"><i class="fas fa-bomb"></i> Саботаж</div>
+                        <div class="punishment"><i class="fas fa-road"></i> "Дорога Покаяния" — возвращение ущерба в тройном размере + испытательный срок.</div>
+                    </div>
+                </div>
+
+                <!-- ДОБРОДЕТЕЛИ -->
+                <div class="law-section virtues">
+                    <div class="section-icon">✨</div>
+                    <h2><i class="fas fa-star"></i> ДОБРОДЕТЕЛИ</h2>
+                    <div class="virtue-grid">
+                        <div class="virtue-card">
+                            <i class="fas fa-comment"></i>
+                            <h3>"Глас Ордена"</h3>
+                            <p>Актив в Telegram — +5% к личной доле трофеев</p>
+                        </div>
+                        <div class="virtue-card">
+                            <i class="fas fa-crown"></i>
+                            <h3>"Стальной Поход"</h3>
+                            <p>Организация успешного рейда — звание "Железный Проповедник"</p>
+                        </div>
+                        <div class="virtue-card">
+                            <i class="fas fa-toolbox"></i>
+                            <h3>"Рука Кузнеца"</h3>
+                            <p>Крафт 100+ предметов — право на именной складской ящик</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- КЛЯТВА ВЕРНОСТИ -->
+                <div class="oath-box">
+                    <div class="oath-text">🔻 КЛЯТВА ВЕРНОСТИ</div>
+                    <p style="font-size: 1.2rem; margin: 20px 0; font-style: italic;">
+                        "Клянусь серебром и сталью Fort Sterling!<br>
+                        Моя добыча — ордену, мой клинок — его воле,<br>
+                        Моя смерть — урок для врагов Enforcer!"
+                    </p>
+                    <div class="oath-text" style="font-size: 1rem;">🔺 ДЕВИЗ ОРДЕНА</div>
+                    <p style="font-size: 1.5rem; color: var(--gold); font-weight: 700;">"Мы не ждём — мы владеем!"</p>
+                </div>
+
+                <!-- ТРИУМВИРАТ -->
+                <div style="text-align: center; margin: 30px 0;">
+                    <h3 style="color: var(--royal-blue);">⚜️ ТРИУМВИРАТ ⚜️</h3>
+                </div>
+                
+                <div class="triumvirate">
+                    <div class="triumvir-card"><div class="title">Генерал</div><div class="name">IronForge</div></div>
+                    <div class="triumvir-card"><div class="title">Верховный Инженер</div><div class="name">BlackSmith</div></div>
+                    <div class="triumvir-card"><div class="title">Лорд-Добытчик</div><div class="name">NorthWind</div></div>
+                </div>
+
+                <!-- ПОЯСНЕНИЯ ДЛЯ НОВИЧКОВ -->
+                <div class="beginner-notes">
+                    <h3><i class="fas fa-book-open"></i> ПОЯСНЕНИЯ ДЛЯ НОВИЧКОВ</h3>
+                    <div class="note-item"><i class="fas fa-skull"></i><div><strong>"Искупление кровью"</strong> — если ты побежал с поля боя, будешь таскать снаряжение для других.</div></div>
+                    <div class="note-item"><i class="fas fa-cross"></i><div><strong>"Клеймо Предателя"</strong> — публичная казнь персонажа на площади Fort Sterling.</div></div>
+                </div>
+
+                <div class="foundation-date">
+                    <i class="fas fa-calendar-alt"></i> ОСНОВАНА <strong>8 ИЮЛЯ 2025 ГОДА</strong> <i class="fas fa-calendar-alt"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Enforcer</h4>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О гильдии</a></li>
+                        <li><a href="codex.html">Кодекс</a></li>
+                        <li><a href="ranks.html">Табель о рангах</a></li>
+                        <li><a href="activities.html">Активности</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Инструменты</h4>
+                    <ul>
+                        <li><a href="roster.html">Состав</a></li>
+                        <li><a href="calculator.html">Калькулятор крафта</a></li>
+                        <li><a href="market.html">Мониторинг рынка</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ресурсы</h4>
+                    <ul>
+                        <li><a href="https://discord.gg/y6TAdWNkGq" target="_blank">Discord</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Гильдия Enforcer • Основана 8 июля 2025 года</p>
+                <p>⚔️ "Мы не ждём — мы владеем!" ⚔️</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/mobile.js"></script>
+</body>
+</html>
